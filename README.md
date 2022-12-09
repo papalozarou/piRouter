@@ -23,7 +23,7 @@ Select `Serial Port`:
 
 ![Select `Serial Port`](img/2-serial-port.png)
 
-Choose `No` for `Would you like a login shell to be accessible over serial?:
+Choose `No` for `Would you like a login shell to be accessible over serial?`:
 
 ![Choose `No` for `Would you like a login shell to be accessible over serial?`](img/3-login-over-serial.png)
 
@@ -127,7 +127,7 @@ drwx------ .
 Paste the generated public key into `authorized_keys` and save. You can now restart the server:
 
 ```
-sudo systemctl restart sshd
+:~ $ sudo systemctl restart sshd
 ```
 
 On your local machine add the server to your `ssh_config` or `config` file:
@@ -141,9 +141,9 @@ And add the following, editing according to your setup:
 ```
 Host ${connectionName}
   Hostname ${ipAddress} 
-	Port ${portNumber} 
-	User ${userName}
-	IdentityFile ~/.ssh/${piRouterPrivateKeyFile}
+  Port ${portNumber} 
+  User ${userName}
+  IdentityFile ~/.ssh/${piRouterPrivateKeyFile}
 ```
 
 You can now connect to your router via:
@@ -160,13 +160,13 @@ Before closing the current session, check you can still login to your server by 
 By default, UFW is not installed as part of Raspberry Pi OS. Install it with:
 
 ```
-sudo apt install ufw -y
+:~ $ sudo apt install ufw -y
 ```
 
 Before making it active, you need to allow SSH connections on the port specified within `sshd_config`. First though stop it automatically adding ipv6 rules:
 
 ```
-sudo nano /etc/default/ufw
+:~ $ sudo nano /etc/default/ufw
 ```
 
 And change `IPV6=yes` to the obvious:
@@ -178,25 +178,25 @@ IPV6=no
 Now add the port number you specified in `sshd_config`:
 
 ```
-sudo ufw allow $[portNumber]/tcp
+:~ $ sudo ufw allow $[portNumber]/tcp
 ```
 
 For good measure we can explicitly deny traffic on port 22:
 
 ```
-sudo ufw deny 22
+:~ $ sudo ufw deny 22
 ```
 
 Now enable UFW:
 
 ```
-sudo ufw enable
+:~ $ sudo ufw enable
 ```
 
 Should you wish to, you can check UFW's status with:
 
 ```
-sudo ufw status
+:~ $ sudo ufw status
 ```
 
 ### 2.3 Securing your router with Fail2Ban
@@ -204,7 +204,7 @@ sudo ufw status
 As with UFW you will need to first install Fail2Ban:
 
 ```
-sudo apt install fail2ban
+:~ $ sudo apt install fail2ban
 ```
 
 By default, Fail2Ban reads `*.conf` files first, then `*.local` files which override any settings found in the `*.conf` files.
@@ -212,13 +212,13 @@ By default, Fail2Ban reads `*.conf` files first, then `*.local` files which over
 As you're not changing anything within the default `fail2ban.conf` you only need to create a jail config:
 
 ```
-sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+:~ $ sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 ```
 
 Open the `jail.local` file:
 
 ```
-sudo nano /etc/fail2ban/jail.local
+:~ $ sudo nano /etc/fail2ban/jail.local
 ```
 
 Set the following lines – you may need to uncomment some of these lines to set them:
@@ -236,13 +236,13 @@ maxretry = 3
 Save and exit the config file. Now reload Fail2Ban:
 
 ```
-sudo fail2ban-client reload
+:~ $ sudo fail2ban-client reload
 ```
 
 Should you wish to, you can check the status of Fail2Ban with:
 
 ```
-sudo fail2ban-client status
+:~ $ sudo fail2ban-client status
 ```
 
 ### References
