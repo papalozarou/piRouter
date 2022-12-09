@@ -1,0 +1,8 @@
+allow-hotplug wlan0
+iface wlan0 inet static
+    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+    metric 0
+    address $[ip-address]
+    netmask $[subnet]
+    network $[ip]
+    router $[router-ip-address]
