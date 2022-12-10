@@ -434,7 +434,7 @@ Now run the script:
 :~ $ ./piRouter/wwan0-to-eth0.sh
 ```
 
-If everything has been set up correctly, you will lose access to the Pi, though it's unclear why this happens.
+If everything has been set up correctly, you will almost immediately lose SSH access to the Pi, though it's unclear why this happens.
 
 To test if everything is working correctly, plug another machine directly into the Pi's ethernet port and, in the machine's network settings, set DHCP to mannual with the following values:
 
