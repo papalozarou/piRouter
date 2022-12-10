@@ -3,12 +3,6 @@
 # -----------------------------------------------------------------------------
 # Project specific
 # -------------------------------------
-/pihole/etc-dnsmasq.d/*
-/pihole/etc-pihole/*
-/unbound/config/root.hints
-/unbound/config/var/root.key
-/wireguard/config
-/wireguard/server
 
 # -------------------------------------
 # General
