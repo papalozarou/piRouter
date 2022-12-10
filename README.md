@@ -35,13 +35,14 @@ You should then recieve a confirmation screen:
 
 ![You should then recieve a confirmation screen](img/5-confirmation.png)
 
-Whilst we're here we may as well update `raspi-config`:
+Whilst you're here you may as well update `raspi-config`:
 
 ![Updating `raspi-config`](img/6-update-raspi-config.png)
 
-Next, clone this respository to your home folder:
+Next, install `Git` and clone this respository to your home folder:
 
 ```
+:~ $ sudo apt install git -y
 :~ $ git clone https://github.com/papalozarou/piRouter ~/
 ```
 
@@ -58,14 +59,14 @@ The first line may not be needed, but is included just in case.
 
 ## 2. Secure the Pi
 
-The next step is to secure the router with OpenSSH, UFW and Fail2Ban.
+The next step is to secure the router with `OpenSSH`, `UFW` and `Fail2Ban`.
 
 ### 2.1 Hardening SSH access
 
 The SSH server will be configured to:
 
 1. only listen for ip4 connections;
-2. change the listening port [a random port number between 20000 and 65535](https://www.random.org);
+2. change the listening port to [a random port number between 20000 and 65535](https://www.random.org);
 3. disable root login;
 4. enable ssh keys;
 5. disable password authentication; and
@@ -77,7 +78,7 @@ Open the SSH daemon config file:
 :~ $ sudo nano /etc/ssh/sshd_config
 ```
 
-And edit and set the following lines – some of them may need uncommenting:
+Edit and set the following lines – some of them may need uncommenting:
 
 ```
 Port $[portNumber]
@@ -112,7 +113,7 @@ Although [some guides recommend it](https://www.digitalocean.com/community/tutor
 
 Before restarting the SSH server, generate SSH keys on your local machine and add them to the Pi. The method of generating varies from OS to OS – Linode have [a great guide](https://www.linode.com/docs/guides/set-up-and-secure/).
 
-On the Pi we need to set up the folder and file to store the public key, ensuring that the correct permissions are set on the server `.ssh` folder – `700` – and `authorized_keys` file – `600`:
+On the Pi you need to set up the `.ssh` folder and `authorized_keys` file to store the public key, ensuring that the correct permissions are set on the folder – `700` – and the file – `600`:
 
 ```
 :~ $ mkdir ~/.ssh
@@ -155,9 +156,9 @@ You can now connect to your router via:
 *N.B.*
 Before closing the current session, check you can still login to your server by opening a new terminal session and testing the login details.
 
-### 2.2 Setting up a firewall with UFW
+### 2.2 Setting up a firewall with `UFW`
 
-By default, UFW is not installed as part of Raspberry Pi OS. Install it with:
+By default, `UFW` is not installed as part of Raspberry Pi OS. Install it with:
 
 ```
 :~ $ sudo apt install ufw -y
@@ -187,27 +188,27 @@ For good measure we can explicitly deny traffic on port 22:
 :~ $ sudo ufw deny 22
 ```
 
-Now enable UFW:
+Now enable `UFW`:
 
 ```
 :~ $ sudo ufw enable
 ```
 
-Should you wish to, you can check UFW's status with:
+Should you wish to, you can check `UFW's` status with:
 
 ```
 :~ $ sudo ufw status
 ```
 
-### 2.3 Securing your router with Fail2Ban
+### 2.3 Securing your router with `Fail2Ban`
 
-As with UFW you will need to first install Fail2Ban:
+As with `UFW` you will need to first install `Fail2Ban`:
 
 ```
 :~ $ sudo apt install fail2ban
 ```
 
-By default, Fail2Ban reads `*.conf` files first, then `*.local` files which override any settings found in the `*.conf` files.
+By default, `Fail2Ban` reads `*.conf` files first, then `*.local` files which override any settings found in the `*.conf` files.
 
 As you're not changing anything within the default `fail2ban.conf` you only need to create a jail config:
 
@@ -233,7 +234,7 @@ findtime = 5m
 maxretry = 3
 ```
 
-Save and exit the config file. Now reload Fail2Ban:
+Save and exit the config file. Now reload `Fail2Ban`:
 
 ```
 :~ $ sudo fail2ban-client reload
@@ -265,7 +266,7 @@ Bus 001 Device 002: ID 2109:3431 VIA Labs, Inc. Hub
 Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 ```
 
-The second check is to make sure the modem appears as a CDC device, `cdc-wdm`:
+The second check is to make sure the modem appears as a CDC device, `cdc-wdm0`:
 
 ```
 :~ $ ls /dev/cdc*
@@ -315,12 +316,12 @@ Should you wish to, you can confirm the protocol is set by running:
 Some sims will require you to set the APN, username and password for your carrier. Some will not, though that may only be discovered via trial and error. If yours requires it, run:
 
 ```
-qmicli -p -d /dev/cdc-wdm0 --device-open-net='net-raw-ip|net-no-qos-header' --wds-start-network="apn='${apn}',username='${username}',password='${password}',ip-type=4" --client-no-release-cid
+:~ $ sudo qmicli -p -d /dev/cdc-wdm0 --device-open-net='net-raw-ip|net-no-qos-header' --wds-start-network="apn='${apn}',username='${username}',password='${password}',ip-type=4" --client-no-release-cid
 ```
 
 If you recieve an error regarding multiple connections, you don't need to run this command.
 
-Before you run the last command, make sure the device has started
+Next, make sure the device has started:
 
 ```
 :~ $ sudo qmi-network /dev/cdc-wdm0 start
@@ -349,7 +350,7 @@ To confirm everything was successful run:
        valid_lft forever preferred_lft forever
 ```
 
-As a lest check, ping Google, to ensure data is being recieved:
+As a lest check, ping Google, to ensure data is being received:
 
 ```
 :~ $ ping -I wwan0 www.google.com -c 3
@@ -359,7 +360,7 @@ As a lest check, ping Google, to ensure data is being recieved:
 rtt min/avg/max/mdev = 31.199/46.540/58.827/8.962 ms
 ```
 
-All of the above will need to be done again at every reboot. To avoid this, we will add the `/etc/network/interfaces.d/wwan0` file from this repo into `/etc/network/interfaces.d/`:
+All of the above will need to be done again at every reboot. To avoid this, add the `/etc/network/interfaces.d/wwan0` file from this repo into `/etc/network/interfaces.d/`:
 
 ```
 :~ $ sudo mv ~/piRouter//etc/network/interfaces.d/wwan0 /etc/network/interfaces.d/wwan0
