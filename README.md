@@ -59,11 +59,7 @@ The first line may not be needed, but is included just in case.
 
 ## 2. Secure the Pi
 
-The next step is to secure the router with `OpenSSH`, `UFW` and `Fail2Ban`.
-
-### 2.1 Hardening SSH access
-
-The SSH server will be configured to:
+The next step is to secure the router by hardening SSH access. The SSH server will be configured to:
 
 1. only listen for ip4 connections;
 2. change the listening port to [a random port number between 20000 and 65535](https://www.random.org);
@@ -154,103 +150,7 @@ You can now connect to your router via:
 ```
 
 *N.B.*
-Before closing the current session, check you can still login to your server by opening a new terminal session and testing the login details.
-
-### 2.2 Setting up a firewall with `UFW`
-
-By default, `UFW` is not installed as part of Raspberry Pi OS. Install it with:
-
-```
-:~ $ sudo apt install ufw -y
-```
-
-Before making it active, you need to allow SSH connections on the port specified within `sshd_config`. First though stop it automatically adding ipv6 rules:
-
-```
-:~ $ sudo nano /etc/default/ufw
-```
-
-And change `IPV6=yes` to the obvious:
-
-```
-IPV6=no
-```
-
-Now add the port number you specified in `sshd_config`:
-
-```
-:~ $ sudo ufw allow $[portNumber]/tcp
-```
-
-For good measure we can explicitly deny traffic on port 22:
-
-```
-:~ $ sudo ufw deny 22
-```
-
-Now enable `UFW`:
-
-```
-:~ $ sudo ufw enable
-```
-
-Should you wish to, you can check `UFW's` status with:
-
-```
-:~ $ sudo ufw status
-```
-
-### 2.3 Securing your router with `Fail2Ban`
-
-As with `UFW` you will need to first install `Fail2Ban`:
-
-```
-:~ $ sudo apt install fail2ban
-```
-
-By default, `Fail2Ban` reads `*.conf` files first, then `*.local` files which override any settings found in the `*.conf` files.
-
-As you're not changing anything within the default `fail2ban.conf` you only need to create a jail config:
-
-```
-:~ $ sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
-```
-
-Open the `jail.local` file:
-
-```
-:~ $ sudo nano /etc/fail2ban/jail.local
-```
-
-Set the following lines – you may need to uncomment some of these lines to set them:
-
-```
-ignoreip = 127.0.0.1/8
-[…]
-bantime = 10m
-[…]
-findtime = 5m
-[…]
-maxretry = 3
-```
-
-Save and exit the config file. Now reload `Fail2Ban`:
-
-```
-:~ $ sudo fail2ban-client reload
-```
-
-Should you wish to, you can check the status of Fail2Ban with:
-
-```
-:~ $ sudo fail2ban-client status
-```
-
-### References
-* [Digital Ocean's guide to hardening OpenSSH server](https://www.digitalocean.com/community/tutorials/how-to-harden-openssh-on-ubuntu-20-04)
-* [Github thread on `.ssh` folder and file permissions](https://gist.github.com/grenade/6318301)
-* [Linode's guide to instaling and configuring Fail2Ban](https://www.linode.com/docs/security/using-fail2ban-to-secure-your-server-a-tutorial/)
-
+Before closing the current session, check you can still login to your server by opening a new terminal session and testing the login. 
 
 ## 3. Set up the LTE modem
 
