@@ -59,7 +59,7 @@ The first line may not be needed, but is included just in case.
 
 ## 2. Secure the Pi
 
-The next step is to secure the router by hardening SSH access. The SSH server will be configured to:
+The next step is to secure the router by hardening SSH access – slightly unnecessary overkill in this instance, however good practice. The SSH server will be configured to:
 
 1. only listen for ip4 connections;
 2. change the listening port to [a random port number between 20000 and 65535](https://www.random.org);
@@ -235,8 +235,8 @@ The last step here is to connect the device to the carrier network and obtain an
 udhcpc (v1.22.1) started
 No resolv.conf for interface wwan0.udhcpc
 Sending discover...
-Sending select for X.X.X.X...
-Lease of X.X.X.X obtained, lease time 7200
+Sending select for x.x.x.x...
+Lease of x.x.x.x obtained, lease time 7200
 […]
 ```
 
@@ -246,7 +246,7 @@ To confirm everything was successful run:
 :~ $ ip a s wwan0
 4: wwan0: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 1000
     link/none 
-    inet X.X.X.X/XX scope global wwan0
+    inet x.x.x.x/xx scope global wwan0
        valid_lft forever preferred_lft forever
 ```
 
@@ -280,7 +280,7 @@ And check that everything has worked with:
 :~ $ ip a s wwan0
 4: wwan0: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 1000
     link/none 
-    inet X.X.X.X/XX scope global wwan0
+    inet x.x.x.x/xx scope global wwan0
        valid_lft forever preferred_lft forever
 ```
 
@@ -334,15 +334,7 @@ Now run the script:
 :~ $ ./piRouter/wwan0-to-eth0.sh
 ```
 
-If everything has been set up correctly, you will almost immediately lose SSH access to the Pi, though it's unclear why this happens.
-
-To test if everything is working correctly, plug another machine directly into the Pi's ethernet port and, in the machine's network settings, set DHCP to mannual with the following values:
-
-```
-IP address: 192.168.2.5
-Subnet mask: 255.255.255.0
-Router: 192.168.2.1
-```
+To test if everything is working correctly, plug another machine directly into the Pi's ethernet port and, in the machine's network settings, you will see it gain an IP address in the `192.168.2.x` range.
 
 Turn your machine's wifi off, open a browser and you should be able to browse the web, via the Pi's LTE connection.
 
