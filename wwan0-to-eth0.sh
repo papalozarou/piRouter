@@ -8,12 +8,12 @@
 #
 # Prerequisits are:
 #
-# 1. Basic configuration of the Pi, i.e. SSH, UFW, Fail2Ban;
+# 1. Basic configuration of the Pi;
 # 2. Configuration of the `wwan0` interface to start and obtain an ip on boot;
 #    and;
 # 3. Installation of `dnsmasq`.
 #
-# Please see the project r`README.md` for full setup instructuins.
+# Please see the project `README.md` for full setup instructuins.
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
