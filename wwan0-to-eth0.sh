@@ -59,7 +59,7 @@ sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
 # ------------------------------------------------------------------------------
 sudo ip link set dev $ETH down
 sudo ip link set dev $ETH up
-sudo ip addr add $IP_ADDRESS/$NETMASK dev $
+sudo ip addr add $IP_ADDRESS/$NETMASK dev $ETH
 
 sudo ip route del 0/0 dev $ETH &> /dev/null
 
