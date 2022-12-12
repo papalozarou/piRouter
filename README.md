@@ -341,7 +341,7 @@ Turn your machine's wifi off, open a browser and you should be able to browse th
 ### References
 * [StackExchange thread on accessing Pi Wifi connection via it's ethernet port](https://raspberrypi.stackexchange.com/questions/48307/sharing-the-pis-wifi-connection-through-the-ethernet-port)
 * [arpitjindal97's script linked from the above thread](https://github.com/arpitjindal97/raspbian-recipes/blob/master/wifi-to-eth-route.sh)
-* [SixFab's guide to sharing a wwan0 connection to eth0](https://docs.sixfab.com/page/share-wwan0-connection-to-lan)
+* [Sixfab's guide to sharing a wwan0 connection to eth0](https://docs.sixfab.com/page/share-wwan0-connection-to-lan)
 
 
 
